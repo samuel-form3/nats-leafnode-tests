@@ -26,5 +26,25 @@ cluster:
     ca: "ca.crt"
     cert: "tls.crt"
     key: "tls.key"
+
+leafnodes:
+  enabled: true
+  noAdvertise: true
+  remotes:
+    - urls:
+      - "tls://172.18.255.221:7422"
+      - "tls://172.18.255.222:7422"
+      tls:
+        secret:
+          name: nats-leaf-tls
+        ca: "ca.crt"
+        cert: "tls.crt"
+        key: "tls.key"
+  tls:
+    secret:
+      name: nats-leaf-tls
+    ca: "ca.crt"
+    cert: "tls.crt"
+    key: "tls.key"
     
 k8sClusterDomain: b1.local

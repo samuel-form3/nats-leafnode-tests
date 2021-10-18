@@ -1,4 +1,5 @@
 nats:
+  advertise: false
   serverNamePrefix: a1-
   extraRoutes:
   - nats://nats-0.nats.default.svc.a2.local:6222
@@ -25,6 +26,16 @@ cluster:
   tls:
     secret:
       name: nats-server-tls
+    ca: "ca.crt"
+    cert: "tls.crt"
+    key: "tls.key"
+
+leafnodes:
+  enabled: true
+  noAdvertise: false
+  tls:
+    secret:
+      name: nats-leaf-tls
     ca: "ca.crt"
     cert: "tls.crt"
     key: "tls.key"

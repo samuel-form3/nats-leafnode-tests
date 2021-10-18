@@ -6,7 +6,17 @@ pushd $ROOT > /dev/null
 
 CLUSTER_NAME=$1
 
+
+
 kubectl apply -f ./$CLUSTER_NAME/nats-cert-secret.yaml \
+   --namespace default \
+   --context kind-$CLUSTER_NAME
+
+kubectl apply -f ./$CLUSTER_NAME/nats-leaf-cert-secret.yaml \
+   --namespace default \
+   --context kind-$CLUSTER_NAME
+
+kubectl apply -f ./$CLUSTER_NAME/nats-leaf-service.yaml \
    --namespace default \
    --context kind-$CLUSTER_NAME
 

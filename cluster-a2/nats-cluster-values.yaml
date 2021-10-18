@@ -1,0 +1,32 @@
+nats:
+  serverNamePrefix: a2-
+  extraRoutes:  
+  - nats://nats-0.nats.default.svc.a1.local:6222
+  jetstream:
+    enabled: true
+  
+auth:
+  enabled: true
+  basic:
+    accounts:
+      USERS:
+        users:
+        - user: a
+          password: a
+      SYS: 
+        users:
+        - user: admin
+          password: changeit
+  systemAccount: SYS
+
+cluster:
+  enabled: true
+  replicas: 1
+  tls:
+    secret:
+      name: nats-server-tls
+    ca: "ca.crt"
+    cert: "tls.crt"
+    key: "tls.key"
+    
+k8sClusterDomain: a2.local

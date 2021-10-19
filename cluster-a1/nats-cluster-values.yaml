@@ -17,9 +17,23 @@ auth:
   enabled: true
   basic:
     accounts:
-      test:
+      test1:
         users:
-        - user: test.form3.tech
+        - user: test1.form3.tech
+        jetstream: true
+        imports:
+        - stream:
+            subject: "TEST2.test"
+            account: test2
+          prefix: "TEST1"
+      test2:
+        users:
+        - user: test2.form3.tech
+        jetstream: true
+        exports:
+        - stream: "TEST2.test"
+          accounts: 
+          - test1
       sys: 
         users:
         - user: admin

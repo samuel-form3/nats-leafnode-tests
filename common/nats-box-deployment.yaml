@@ -31,10 +31,16 @@ spec:
         imagePullPolicy: IfNotPresent
         name: nats-box
         volumeMounts:
-          - mountPath: "/etc/nats-certs"
-            name: test-user-cert-tls-volume
+          - mountPath: "/etc/nats-certs/test1"
+            name: test1-user-cert-tls-volume
+            readOnly: true
+          - mountPath: "/etc/nats-certs/test2"
+            name: test2-user-cert-tls-volume
             readOnly: true
       volumes:
-        - name: test-user-cert-tls-volume
+        - name: test1-user-cert-tls-volume
           secret:
-            secretName: test-user-cert-tls
+            secretName: test1-user-cert-tls
+        - name: test2-user-cert-tls-volume
+          secret:
+            secretName: test2-user-cert-tls

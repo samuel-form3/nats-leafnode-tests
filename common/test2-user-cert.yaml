@@ -1,10 +1,10 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: test-user-cert
+  name: test2-user-cert
   namespace: default
 spec:
-  secretName: test-user-cert-tls
+  secretName: test2-user-cert-tls
   duration: 2160h
   renewBefore: 360h
   subject:
@@ -23,7 +23,7 @@ spec:
     - server auth
     - client auth
   dnsNames:
-  - test.form3.tech
+  - test2.form3.tech
   issuerRef:
     name: ca-issuer
     kind: Issuer

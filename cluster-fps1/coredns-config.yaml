@@ -11,7 +11,7 @@ data:
            lameduck 5s
         }
         ready
-        kubernetes a1.local in-addr.arpa ip6.arpa {
+        kubernetes fps1.local in-addr.arpa ip6.arpa {
            pods insecure
            fallthrough in-addr.arpa ip6.arpa
            ttl 30
@@ -24,13 +24,4 @@ data:
         loop
         reload
         loadbalance
-   }
-   a2.local:53 {
-       log
-       errors
-       ready
-       cache 10
-       forward . 172.18.255.242 {
-            force_tcp
-       }
    }

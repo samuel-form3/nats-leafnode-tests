@@ -1,34 +1,73 @@
 #!/usr/bin/env bash
 
+# Cluster CA
 
+# Create Stream
+kubectl exec --context=kind-cluster-ca1 -it deploy/nats-box -- nats stream create CAFPSPAYMENTS \
+    --tlskey=/etc/nats-certs/ca/tls.key \
+    --tlscert=/etc/nats-certs/ca/tls.crt \
+    --tlsca=/etc/nats-certs/ca/ca.crt \
+    --subjects=CA.FPS.payments \
+    --storage=file \
+    --retention=limits \
+    --discard=old \
+    --max-msgs=-1 \
+    --max-msgs-per-subject=-1 \
+    --max-msg-size=-1 \
+    --max-bytes=-1 \
+    --dupe-window=2m \
+    --max-age=-1 \
+    --replicas=1
 
+# Create Pull Consumer
+kubectl exec --context=kind-cluster-ca1 -it deploy/nats-box -- nats con add CAFPSPAYMENTS CAFPSPAYMENTSPULLCONSUMER \
+    --tlskey=/etc/nats-certs/ca/tls.key \
+    --tlscert=/etc/nats-certs/ca/tls.crt \
+    --tlsca=/etc/nats-certs/ca/ca.crt \
+    --filter '' \
+    --ack explicit \
+    --pull \
+    --deliver all \
+    --max-deliver=-1 \
+    --sample 100
 
-```
-# CLUSTER A1: Setup pull consumer
-nats con add t1t2test t1t2testpullconsumer --filter '' --ack explicit --pull --deliver all --max-deliver=-1 --sample 100 --tlskey=tls.key --tlscert=tls.crt --tlsca=ca.crt
+# Create Push Consumer
+kubectl exec --context=kind-cluster-ca1 -it deploy/nats-box -- nats con add CAFPSPAYMENTS CAFPSPAYMENTSPUSHCONSUMER \
+    --tlskey=/etc/nats-certs/ca/tls.key \
+    --tlscert=/etc/nats-certs/ca/tls.crt \
+    --tlsca=/etc/nats-certs/ca/ca.crt \
+    --filter '' \
+    --ack none \
+    --target CA.FPS.paymentsstreamresult \
+    --deliver last \
+    --replay instant
 
-# CLUSTER A2: Setup push consumer that pipes messages to an out subject
-nats con add t1t2test t1t2testconsumer --filter '' --ack none --target t1t2result --deliver last --replay instant --tlskey=tls.key --tlscert=tls.crt --tlsca=ca.crt
+# Cluster FPS
 
-# CLUSTER B1: Setup push consumer that pipes messages to an out subject
-nats con add t2test t2testconsumer --filter '' --ack none --target t2result --deliver last --replay instant --tlskey=tls.key --tlscert=tls.crt --tlsca=ca.crt
-```
+# Create Stream
+kubectl exec --context=kind-cluster-fps1 -it deploy/nats-box -- nats stream create FPSPAYMENTS \
+    --tlskey=/etc/nats-certs/fps/tls.key \
+    --tlscert=/etc/nats-certs/fps/tls.crt \
+    --tlsca=/etc/nats-certs/fps/ca.crt \
+    --subjects=FPS.payments \
+    --storage=file \
+    --retention=limits \
+    --discard=old \
+    --max-msgs=-1 \
+    --max-msgs-per-subject=-1 \
+    --max-msg-size=-1 \
+    --max-bytes=-1 \
+    --dupe-window=2m \
+    --max-age=-1 \
+    --replicas=1
 
-Message pub/sub and consumer commands:
-
-```
-# Subscribe to subject messages
-nats sub t1t2result --tlskey=tls.key --tlscert=tls.crt --tlsca=ca.crt
-
-# Publish message to subject.
-nats pub TEST2.test --tlskey=tls.key --tlscert=tls.crt --tlsca=ca.crt miracle
-
-# Pull message from consumer
-nats consumer next t1t2test t1t2testpullconsumer --tlskey=tls.key --tlscert=tls.crt --tlsca=ca.crt
-```
-
-# cluster a1
-
-kubectl exec --kube-context=kind-cluster-a1 -it nats-box -- znats stream create --tlskey=tls.key --tlscert=tls.crt --tlsca=ca.crt 
-
-kubectl exec --kube-context=kind-cluster-a1 -it nats-box -- nats con add t1t2test t1t2testpullconsumer --filter '' --ack explicit --pull --deliver all --max-deliver=-1 --sample 100 --tlskey=/etc/nats-certs/test1/tls.key --tlscert=tls.crt --tlsca=ca.crt 
+# Create Push Consumer
+kubectl exec --context=kind-cluster-fps1 -it deploy/nats-box -- nats con add CAFPSPAYMENTS CAFPSPAYMENTSPUSHCONSUMER \
+    --tlskey=/etc/nats-certs/fps/tls.key \
+    --tlscert=/etc/nats-certs/fps/tls.crt \
+    --tlsca=/etc/nats-certs/fps/ca.crt \
+    --filter '' \
+    --ack none \
+    --target FPS.paymentsstreamresult \
+    --deliver last \
+    --replay instant

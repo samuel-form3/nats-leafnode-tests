@@ -8,11 +8,11 @@ CLUSTER_NAME=$1
 
 
 # common
-kubectl apply -f ./common/test1-user-cert.yaml \
+kubectl apply -f ./common/ca-user-cert.yaml \
    --namespace default \
    --context kind-$CLUSTER_NAME
 
-kubectl apply -f ./common/test2-user-cert.yaml \
+kubectl apply -f ./common/fps-user-cert.yaml \
    --namespace default \
    --context kind-$CLUSTER_NAME
 

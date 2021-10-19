@@ -1,5 +1,8 @@
 nats:
-  serverNamePrefix: b1-
+  advertise: false
+  serverNamePrefix: ca2-
+  extraRoutes:
+  - nats://nats-0.nats.default.svc.ca1.local:6222
   jetstream:
     enabled: true
   tls:
@@ -9,37 +12,38 @@ nats:
     cert: "tls.crt"
     key: "tls.key"
     verifyAndMap: true
-  
+
 auth:
   enabled: true
   basic:
     accounts:
-      test1:
+      ca:
         users:
-        - user: test1.form3.tech
+        - user: ca.form3.tech
         jetstream: true
         imports:
         - stream:
-            subject: "TEST2.test"
-            account: test2
-          prefix: "TEST1"
-      test2:
+            subject: "FPS.payments"
+            account: fps
+          prefix: "CA"
+      fps:
         users:
-        - user: test2.form3.tech
+        - user: fps.form3.tech
         jetstream: true
         exports:
-        - stream: "TEST2.test"
+        - stream: "FPS.payments"
           accounts: 
-          - test1
+          - ca
       sys: 
         users:
         - user: admin
           password: changeit
   systemAccount: sys
 
+
 cluster:
   enabled: true
-  replicas: 3
+  replicas: 2
   tls:
     secret:
       name: nats-server-tls
@@ -50,17 +54,6 @@ cluster:
 leafnodes:
   enabled: true
   noAdvertise: true
-  remotes:
-    - urls:
-      - "nats://172.18.0.2:32742"
-      - "nats://172.18.0.3:32742"
-      account: test2
-      tls:
-        secret:
-          name: test2-user-cert-tls
-        ca: "ca.crt"
-        cert: "tls.crt"
-        key: "tls.key"
   tls:
     secret:
       name: nats-leaf-tls
@@ -69,8 +62,7 @@ leafnodes:
     key: "tls.key"
     verifyAndMap: true
     
-k8sClusterDomain: b1.local
-
+k8sClusterDomain: ca2.local
 
 natsbox:
   enabled: false

@@ -7,15 +7,15 @@ auth:
   enabled: true
   basic:
     accounts:
-      USERS:
+      test:
         users:
-        - user: a
-          password: a
-      SYS: 
+        - user: test
+          password: changeit
+      sys: 
         users:
         - user: admin
           password: changeit
-  systemAccount: SYS
+  systemAccount: sys
 
 cluster:
   enabled: true
@@ -32,8 +32,9 @@ leafnodes:
   noAdvertise: true
   remotes:
     - urls:
-      - "tls://172.18.255.221:7422"
-      - "tls://172.18.255.222:7422"
+      - "nats://test:changeit@172.18.255.221:7422"
+      - "nats://test:changeit@172.18.255.222:7422"
+      account: test
       tls:
         secret:
           name: nats-leaf-tls

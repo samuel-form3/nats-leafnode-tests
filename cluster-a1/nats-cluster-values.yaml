@@ -10,15 +10,15 @@ auth:
   enabled: true
   basic:
     accounts:
-      USERS:
+      test:
         users:
-        - user: a
-          password: a
-      SYS: 
+        - user: test
+          password: changeit
+      sys: 
         users:
         - user: admin
           password: changeit
-  systemAccount: SYS
+  systemAccount: sys
 
 cluster:
   enabled: true

@@ -16,6 +16,10 @@ kubectl apply -f ./$CLUSTER_NAME/test-user-cert.yaml \
    --namespace default \
    --context kind-$CLUSTER_NAME
 
+kubectl apply -f ./common/nats-client-cert.yaml \
+   --namespace default \
+   --context kind-$CLUSTER_NAME
+
 kubectl apply -f ./$CLUSTER_NAME/nats-leaf-cert-secret.yaml \
    --namespace default \
    --context kind-$CLUSTER_NAME

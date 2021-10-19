@@ -5,6 +5,13 @@ nats:
   - nats://nats-0.nats.default.svc.a2.local:6222
   jetstream:
     enabled: true
+  tls:
+    secret:
+      name: nats-client-tls
+    ca: "ca.crt"
+    cert: "tls.crt"
+    key: "tls.key"
+    verifyAndMap: true
   
 auth:
   enabled: true

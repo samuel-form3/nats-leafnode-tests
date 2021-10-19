@@ -2,6 +2,13 @@ nats:
   serverNamePrefix: b1-
   jetstream:
     enabled: true
+  tls:
+    secret:
+      name: nats-client-tls
+    ca: "ca.crt"
+    cert: "tls.crt"
+    key: "tls.key"
+    verifyAndMap: true
   
 auth:
   enabled: true

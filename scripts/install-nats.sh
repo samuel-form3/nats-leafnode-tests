@@ -12,6 +12,10 @@ kubectl apply -f ./$CLUSTER_NAME/nats-cert-secret.yaml \
    --namespace default \
    --context kind-$CLUSTER_NAME
 
+kubectl apply -f ./$CLUSTER_NAME/test-user-cert.yaml \
+   --namespace default \
+   --context kind-$CLUSTER_NAME
+
 kubectl apply -f ./$CLUSTER_NAME/nats-leaf-cert-secret.yaml \
    --namespace default \
    --context kind-$CLUSTER_NAME
@@ -26,5 +30,8 @@ helm upgrade -i nats \
     --kube-context kind-$CLUSTER_NAME \
     -f ./$CLUSTER_NAME/nats-cluster-values.yaml
 
+kubectl apply -f ./common/nats-box-deployment.yaml \
+   --namespace default \
+   --context kind-$CLUSTER_NAME
 
 popd > /dev/null

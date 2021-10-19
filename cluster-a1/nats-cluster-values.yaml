@@ -12,8 +12,7 @@ auth:
     accounts:
       test:
         users:
-        - user: test
-          password: changeit
+        - user: test.form3.tech
       sys: 
         users:
         - user: admin
@@ -39,5 +38,9 @@ leafnodes:
     ca: "ca.crt"
     cert: "tls.crt"
     key: "tls.key"
+    verifyAndMap: true
     
 k8sClusterDomain: a1.local
+
+natsbox:
+  enabled: false

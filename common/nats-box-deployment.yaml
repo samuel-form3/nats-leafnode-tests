@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nats-box
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nats-box
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: nats-box
+    spec:
+      containers:
+      - command:
+        - tail
+        - -f
+        - /dev/null
+        env:
+        - name: NATS_URL
+          value: nats
+        image: natsio/nats-box:0.6.0
+        imagePullPolicy: IfNotPresent
+        name: nats-box
+        volumeMounts:
+          - mountPath: "/etc/nats-certs"
+            name: test-user-cert-tls-volume
+            readOnly: true
+      volumes:
+        - name: test-user-cert-tls-volume
+          secret:
+            secretName: test-user-cert-tls

@@ -9,8 +9,7 @@ auth:
     accounts:
       test:
         users:
-        - user: test
-          password: changeit
+        - user: test.form3.tech
       sys: 
         users:
         - user: admin
@@ -32,12 +31,12 @@ leafnodes:
   noAdvertise: true
   remotes:
     - urls:
-      - "nats://test:changeit@172.18.255.221:7422"
-      - "nats://test:changeit@172.18.255.222:7422"
+      - "nats://172.18.255.221:7422"
+      - "nats://172.18.255.222:7422"
       account: test
       tls:
         secret:
-          name: nats-leaf-tls
+          name: test-user-cert-tls
         ca: "ca.crt"
         cert: "tls.crt"
         key: "tls.key"
@@ -47,5 +46,10 @@ leafnodes:
     ca: "ca.crt"
     cert: "tls.crt"
     key: "tls.key"
+    verifyAndMap: true
     
 k8sClusterDomain: b1.local
+
+
+natsbox:
+  enabled: false

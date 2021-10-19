@@ -4,7 +4,7 @@ metadata:
   name: nats-leaf
   namespace: default
 spec:
-  type: LoadBalancer
+  type: NodePort
   externalTrafficPolicy: Local
   selector:
     app.kubernetes.io/instance: nats
@@ -14,4 +14,4 @@ spec:
     port: 7422
     protocol: TCP
     targetPort: 7422
-  loadBalancerIP: 172.18.255.223
+    nodePort: 32742

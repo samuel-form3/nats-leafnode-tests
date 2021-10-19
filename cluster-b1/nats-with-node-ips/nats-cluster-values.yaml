@@ -52,8 +52,8 @@ leafnodes:
   noAdvertise: true
   remotes:
     - urls:
-      - "nats://172.18.255.221:7422"
-      - "nats://172.18.255.222:7422"
+      - "nats://172.18.0.2:32742"
+      - "nats://172.18.0.3:32742"
       account: test2
       tls:
         secret:

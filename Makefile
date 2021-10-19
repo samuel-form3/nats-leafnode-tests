@@ -12,14 +12,27 @@ create-cluster-b1:
 connect-clustermesh-a:
 	./scripts/connect-clustermesh.sh cluster-a1 cluster-a2
 
-install-nats-a1:
-	./scripts/install-nats.sh cluster-a1
+install-nats-with-lb: install-nats-with-lb-a1 install-nats-with-lb-a2 install-nats-with-lb-b1
 
-install-nats-a2:
-	./scripts/install-nats.sh cluster-a2
+install-nats-with-lb-a1:
+	./scripts/install-nats-with-lb.sh cluster-a1
 
-install-nats-b1:
-	./scripts/install-nats.sh cluster-b1
+install-nats-with-lb-a2:
+	./scripts/install-nats-with-lb.sh cluster-a2
+
+install-nats-with-lb-b1:
+	./scripts/install-nats-with-lb.sh cluster-b1
+
+install-nats-with-node-ips: install-nats-with-nodeips-a1 install-nats-with-nodeips-a2 install-nats-with-nodeips-b1
+
+install-nats-with-nodeips-a1:
+	./scripts/install-nats-with-node-ips.sh cluster-a1
+
+install-nats-with-nodeips-a2:
+	./scripts/install-nats-with-node-ips.sh cluster-a2
+
+install-nats-with-nodeips-b1:
+	./scripts/install-nats-with-node-ips.sh cluster-b1
 
 destroy-test-clusters:
 	kind delete cluster --name=cluster-a1

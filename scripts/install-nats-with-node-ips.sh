@@ -7,11 +7,7 @@ pushd $ROOT > /dev/null
 CLUSTER_NAME=$1
 
 
-
-kubectl apply -f ./$CLUSTER_NAME/nats-cert-secret.yaml \
-   --namespace default \
-   --context kind-$CLUSTER_NAME
-
+# common
 kubectl apply -f ./common/test1-user-cert.yaml \
    --namespace default \
    --context kind-$CLUSTER_NAME
@@ -24,11 +20,20 @@ kubectl apply -f ./common/nats-client-cert.yaml \
    --namespace default \
    --context kind-$CLUSTER_NAME
 
-kubectl apply -f ./$CLUSTER_NAME/nats-leaf-cert-secret.yaml \
+
+# server certificates
+
+kubectl apply -f ./$CLUSTER_NAME/nats-with-node-ips/nats-cert-secret.yaml \
    --namespace default \
    --context kind-$CLUSTER_NAME
 
-kubectl apply -f ./$CLUSTER_NAME/nats-leaf-service.yaml \
+kubectl apply -f ./$CLUSTER_NAME/nats-with-node-ips/nats-leaf-cert-secret.yaml \
+   --namespace default \
+   --context kind-$CLUSTER_NAME
+
+# nats
+
+kubectl apply -f ./$CLUSTER_NAME/nats-with-node-ips/nats-leaf-service.yaml \
    --namespace default \
    --context kind-$CLUSTER_NAME
 
@@ -36,7 +41,9 @@ helm upgrade -i nats \
     ./nats-chart \
     --namespace default \
     --kube-context kind-$CLUSTER_NAME \
-    -f ./$CLUSTER_NAME/nats-cluster-values.yaml
+    -f ./$CLUSTER_NAME/nats-with-node-ips/nats-cluster-values.yaml
+
+# nats-box
 
 kubectl apply -f ./common/nats-box-deployment.yaml \
    --namespace default \

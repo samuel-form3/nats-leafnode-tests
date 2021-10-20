@@ -62,7 +62,7 @@ kubectl exec --context=kind-cluster-fps1 -it deploy/nats-box -- nats stream crea
     --replicas=1
 
 # Create Push Consumer
-kubectl exec --context=kind-cluster-fps1 -it deploy/nats-box -- nats con add CAFPSPAYMENTS CAFPSPAYMENTSPUSHCONSUMER \
+kubectl exec --context=kind-cluster-fps1 -it deploy/nats-box -- nats con add FPSPAYMENTS FPSPAYMENTSPUSHCONSUMER \
     --tlskey=/etc/nats-certs/fps/tls.key \
     --tlscert=/etc/nats-certs/fps/tls.crt \
     --tlsca=/etc/nats-certs/fps/ca.crt \

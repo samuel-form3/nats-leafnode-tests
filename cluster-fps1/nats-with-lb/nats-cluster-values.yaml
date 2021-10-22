@@ -55,20 +55,20 @@ leafnodes:
     - urls:
       - "nats://172.18.255.221:7422"
       - "nats://172.18.255.222:7422"
-      account: test2
+      account: fps
       tls:
         secret:
-          name: test2-user-cert-tls
+          name: fps-user-cert-tls
         ca: "ca.crt"
         cert: "tls.crt"
         key: "tls.key"
-  tls:
-    secret:
-      name: nats-leaf-tls
-    ca: "ca.crt"
-    cert: "tls.crt"
-    key: "tls.key"
-    verifyAndMap: true
+  # tls:
+  #   secret:
+  #     name: nats-leaf-tls
+  #   ca: "ca.crt"
+  #   cert: "tls.crt"
+  #   key: "tls.key"
+  #   verifyAndMap: true
     
 k8sClusterDomain: fps1.local
 

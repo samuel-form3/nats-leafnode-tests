@@ -29,7 +29,9 @@ kubectl exec --context=kind-cluster-ca1 -it deploy/nats-box -- nats con add CAFP
     --pull \
     --deliver all \
     --max-deliver=-1 \
-    --sample 100
+    --sample 100 \
+    --replay instant \
+    --max-pending=0
 
 # Create Push Consumer
 kubectl exec --context=kind-cluster-ca1 -it deploy/nats-box -- nats con add CAFPSPAYMENTS CAFPSPAYMENTSPUSHCONSUMER \
@@ -40,7 +42,9 @@ kubectl exec --context=kind-cluster-ca1 -it deploy/nats-box -- nats con add CAFP
     --ack none \
     --target CA.FPS.paymentsstreamresult \
     --deliver last \
-    --replay instant
+    --replay instant \
+    --heartbeat 1m \
+    --flow-control
 
 # Cluster FPS
 
@@ -70,4 +74,6 @@ kubectl exec --context=kind-cluster-fps1 -it deploy/nats-box -- nats con add FPS
     --ack none \
     --target FPS.paymentsstreamresult \
     --deliver last \
-    --replay instant
+    --replay instant \
+    --heartbeat 1m \
+    --flow-control

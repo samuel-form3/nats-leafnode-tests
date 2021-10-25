@@ -1,7 +1,9 @@
 nats:
-  serverNamePrefix: fps1-
+  advertise: true
+  serverNamePrefix: ca3-
   jetstream:
     enabled: true
+    domain: form3
   tls:
     secret:
       name: nats-client-tls
@@ -9,7 +11,7 @@ nats:
     cert: "tls.crt"
     key: "tls.key"
     verifyAndMap: true
-  
+
 auth:
   enabled: true
   basic:
@@ -33,13 +35,13 @@ auth:
           - ca
       sys: 
         users:
-        - user: admin
-          password: changeit
+        - user: admin.form3.tech
   systemAccount: sys
 
 
 cluster:
   enabled: true
+  name: "ca-3"
   replicas: 3
   tls:
     secret:
@@ -48,30 +50,26 @@ cluster:
     cert: "tls.crt"
     key: "tls.key"
 
-leafnodes:
+gateway:
   enabled: true
-  noAdvertise: true
-  remotes:
-    - urls:
-      - "nats://172.18.255.221:7422"
-      - "nats://172.18.255.222:7422"
-      account: fps
-      tls:
-        secret:
-          name: fps-user-cert-tls
-        ca: "ca.crt"
-        cert: "tls.crt"
-        key: "tls.key"
+  name: "ca-3"
+  gateways:
+  - name: "ca-2"
+    urls:
+    - "nats://nats-0.nats.default.svc.ca2.local:7522"
+  - name: "ca-1"
+    urls:
+    - "nats://nats-0.nats.default.svc.ca1.local:7522"
   # tls:
   #   secret:
-  #     name: nats-leaf-tls
+  #     name: nats-cert-tls
   #   ca: "ca.crt"
   #   cert: "tls.crt"
   #   key: "tls.key"
-  #   verifyAndMap: true
-    
-k8sClusterDomain: fps1.local
+  #   verify: true
+    # verifyAndMap: true
 
+k8sClusterDomain: ca3.local
 
 natsbox:
   enabled: false

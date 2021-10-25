@@ -16,6 +16,10 @@ kubectl apply -f ./common/fps-user-cert.yaml \
    --namespace default \
    --context kind-$CLUSTER_NAME
 
+kubectl apply -f ./common/admin-user-cert.yaml \
+   --namespace default \
+   --context kind-$CLUSTER_NAME
+
 kubectl apply -f ./common/nats-client-cert.yaml \
    --namespace default \
    --context kind-$CLUSTER_NAME
@@ -27,15 +31,7 @@ kubectl apply -f ./$CLUSTER_NAME/nats-with-lb/nats-cert-secret.yaml \
    --namespace default \
    --context kind-$CLUSTER_NAME
 
-kubectl apply -f ./$CLUSTER_NAME/nats-with-lb/nats-leaf-cert-secret.yaml \
-   --namespace default \
-   --context kind-$CLUSTER_NAME
-
 # nats
-
-kubectl apply -f ./$CLUSTER_NAME/nats-with-lb/nats-leaf-service.yaml \
-   --namespace default \
-   --context kind-$CLUSTER_NAME
 
 helm upgrade -i nats \
     ./nats-chart \

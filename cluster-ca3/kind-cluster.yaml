@@ -5,7 +5,7 @@ nodes:
   - |
     kind: ClusterConfiguration
     networking:
-      dnsDomain: "fps1.local"
+      dnsDomain: "ca3.local"
 networking:
   disableDefaultCNI: true
   podSubnet: 10.3.0.0/16

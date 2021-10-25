@@ -37,6 +37,9 @@ spec:
           - mountPath: "/etc/nats-certs/fps"
             name: fps-user-cert-tls-volume
             readOnly: true
+          - mountPath: "/etc/nats-certs/admin"
+            name: admin-user-cert-tls-volume
+            readOnly: true
       volumes:
         - name: ca-user-cert-tls-volume
           secret:
@@ -44,3 +47,6 @@ spec:
         - name: fps-user-cert-tls-volume
           secret:
             secretName: fps-user-cert-tls
+        - name: admin-user-cert-tls-volume
+          secret:
+            secretName: admin-user-cert-tls

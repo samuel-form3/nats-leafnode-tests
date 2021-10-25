@@ -1,10 +1,9 @@
 nats:
-  advertise: false
+  advertise: true
   serverNamePrefix: ca1-
-  extraRoutes:
-  - nats://nats-0.nats.default.svc.ca2.local:6222
   jetstream:
     enabled: true
+    domain: form3
   tls:
     secret:
       name: nats-client-tls
@@ -12,7 +11,7 @@ nats:
     cert: "tls.crt"
     key: "tls.key"
     verifyAndMap: true
-  
+
 auth:
   enabled: true
   basic:
@@ -36,13 +35,13 @@ auth:
           - ca
       sys: 
         users:
-        - user: admin
-          password: changeit
+        - user: admin.form3.tech
   systemAccount: sys
 
 cluster:
   enabled: true
-  replicas: 2
+  name: "ca-1"
+  replicas: 3
   tls:
     secret:
       name: nats-server-tls
@@ -50,17 +49,27 @@ cluster:
     cert: "tls.crt"
     key: "tls.key"
 
-leafnodes:
+gateway:
   enabled: true
-  noAdvertise: true
-  tls:
-    secret:
-      name: nats-leaf-tls
-    ca: "ca.crt"
-    cert: "tls.crt"
-    key: "tls.key"
-    verifyAndMap: true
-    
+  name: "ca-1"
+  gateways:
+  - name: "ca-2"
+    urls:
+    - "nats://nats-0.nats.default.svc.ca2.local:7522"
+    account: admin
+  - name: "ca-3"
+    urls:
+    - "nats://nats-0.nats.default.svc.ca3.local:7522"
+    account: admin
+  # tls:
+  #   secret:
+  #     name: nats-cert-tls
+  #   ca: "ca.crt"
+  #   cert: "tls.crt"
+  #   key: "tls.key"
+  #   verify: true
+    # verifyAndMap: true
+
 k8sClusterDomain: ca1.local
 
 natsbox:

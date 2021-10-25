@@ -34,3 +34,12 @@ data:
             force_tcp
        }
    }
+   ca3.local:53 {
+       log
+       errors
+       ready
+       cache 10
+       forward . 172.18.255.243 {
+            force_tcp
+       }
+   }
